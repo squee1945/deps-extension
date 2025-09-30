@@ -1,0 +1,10 @@
+{
+  "name": "deps-extension",
+  "version": "1.0.0",
+  "mcpServers": {
+    "my-server": {
+      "command": "depsmcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

@@ -1,0 +1,61 @@
+name: Release Extension
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    env:
+        GOOS: darwin
+        GOARCH: arm64
+
+    # strategy:
+    #   matrix:
+    #     os:
+    #     - go: linux
+    #       gcli: linux
+    #     - go: windows
+    #       gcli: windows
+    #     - go: darwin
+    #       gcli: darwin
+    #     arch: [x64, arm64]
+    #     # exclude:
+    #     #   - os: windows
+    #     #     arch: arm64
+    #     #   - os: darwin
+    #     #     arch: arm64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.25.1
+
+      - name: Create release folder
+        run: |
+          mkdir -p ./staging
+          cp gemini-extension.json ./staging
+          cp commands/* ./staging
+
+      - name: Build binary
+        run: |
+          go build -o ./staging/depsmcp ./mcp
+
+      - name: Create release archive
+        run: |
+          zip ./release/${{ env.GOOS }}.${{ env.GOARCH }}.deps-extension.zip ./staging/*
+
+
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            release/darwin.arm64.deps-extension.zip
