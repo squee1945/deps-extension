@@ -45,7 +45,7 @@ jobs:
         run: |
           mkdir -p ./staging-${{ env.GOOS }}-${{ env.GOARCH }}
           cp gemini-extension.json ./staging-${{ env.GOOS }}-${{ env.GOARCH }}
-          cp commands/* ../staging-${{ env.GOOS }}-${{ env.GOARCH }}
+          cp -r ./commands ./staging-${{ env.GOOS }}-${{ env.GOARCH }}
 
       - name: Build binary
         run: |
