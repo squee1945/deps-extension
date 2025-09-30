@@ -41,22 +41,22 @@ jobs:
 
       - name: Create release folder
         run: |
-          mkdir -p ./staging
-          cp gemini-extension.json ./staging
-          cp commands/* ./staging
+          mkdir -p ./staging-${{ env.GOOS }}-${{ env.GOARCH }}
+          cp gemini-extension.json ./staging-${{ env.GOOS }}-${{ env.GOARCH }}
+          cp commands/* ../staging-${{ env.GOOS }}-${{ env.GOARCH }}
 
       - name: Build binary
         run: |
           cd ./mcp
-          go build -o ../staging/depsmcp
+          go build -o ../staging-${{ env.GOOS }}-${{ env.GOARCH }}/depsmcp
 
       - name: Create release archive
         run: |
-          zip ./release/${{ env.GOOS }}.${{ env.GOARCH }}.deps-extension.zip ./staging/*
-
+          mkdir -p ./release
+          zip ./release/${{ env.GOOS }}.${{ env.GOARCH }}.deps-extension.zip ./staging-${{ env.GOOS }}-${{ env.GOARCH }}/*
 
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            release/darwin.arm64.deps-extension.zip
+            release/${{ env.GOOS }}.${{ env.GOARCH }}.deps-extension.zip
