@@ -47,7 +47,7 @@ jobs:
 
       - name: Build binary
         run: |
-          go build -o ./staging/depsmcp ./mcp
+          go build -o ./staging/depsmcp ./mcp/...
 
       - name: Create release archive
         run: |
