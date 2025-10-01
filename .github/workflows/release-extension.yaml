@@ -17,9 +17,13 @@ jobs:
         os:
           - linux
           - darwin
+          - windows
         arch:
-          - x64
+          - amd64
           - arm64
+        exclude:
+          - os: windows
+            arch: arm64
 
     env:
       GOOS: ${{ matrix.os }}
