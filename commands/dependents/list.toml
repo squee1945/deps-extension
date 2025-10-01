@@ -1,7 +1,7 @@
 description = "Lists the dependents of the current package."
 
 prompt = """
-Use the depmcp list_dependents MCP tool to find the dependents of the current package.
+Use the list_dependents MCP tool to find the dependents of the current package.
 
 The current package can be determined by examining the code or looking at the
 output from `git remote -v` (typically the package is indicated by the
