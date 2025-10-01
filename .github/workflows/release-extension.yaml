@@ -32,23 +32,6 @@ jobs:
       RELEASE_ARCHIVE: ${{ matrix.os }}.${{ matrix.arch }}.deps-extension.zip
       MCP_BINARY_NAME: depsmcp
 
-
-    # strategy:
-    #   matrix:
-    #     os:
-    #     - go: linux
-    #       gcli: linux
-    #     - go: windows
-    #       gcli: windows
-    #     - go: darwin
-    #       gcli: darwin
-    #     arch: [x64, arm64]
-    #     # exclude:
-    #     #   - os: windows
-    #     #     arch: arm64
-    #     #   - os: darwin
-    #     #     arch: arm64
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -98,12 +81,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: release/**
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-
-    #   - name: Upload release archive ${{ env.RELEASE_ARCHIVE }}
-    #     uses: softprops/action-gh-release@v2
-    #     with:
-    #       files: |
-    #         release/${{ env.RELEASE_ARCHIVE }}
