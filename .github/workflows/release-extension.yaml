@@ -19,11 +19,11 @@ jobs:
           - darwin
 
     env:
-        GOOS: ${{ matrix.os }}
-        GOARCH: arm64
-        STAGING: staging-${{ matrix.os }}-arm64
-        RELEASE_ARCHIVE: ${{ matrix.os }}.arm64.deps-extension.zip
-        MCP_BINARY_NAME: depsmcp
+      GOOS: ${{ matrix.os }}
+      GOARCH: arm64
+      STAGING: staging-${{ matrix.os }}-arm64
+      RELEASE_ARCHIVE: ${{ matrix.os }}.arm64.deps-extension.zip
+      MCP_BINARY_NAME: depsmcp
 
 
     # strategy:
@@ -68,7 +68,35 @@ jobs:
           zip release/${{ env.RELEASE_ARCHIVE }} ${{ env.STAGING }}/*
 
       - name: Upload release archive ${{ env.RELEASE_ARCHIVE }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.RELEASE_ARCHIVE }}
+          path: release/${{ env.RELEASE_ARCHIVE }}
+
+  create-release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all release assets
+        uses: actions/download-artifact@v4
+        with:
+          path: release
+
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            release/${{ env.RELEASE_ARCHIVE }}
+          files: release/**
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+    #   - name: Upload release archive ${{ env.RELEASE_ARCHIVE }}
+    #     uses: softprops/action-gh-release@v2
+    #     with:
+    #       files: |
+    #         release/${{ env.RELEASE_ARCHIVE }}
