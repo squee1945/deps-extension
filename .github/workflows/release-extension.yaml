@@ -49,7 +49,7 @@ jobs:
         run: |
           mkdir -p ${{ env.STAGING }}/commands
           cp gemini-extension.json ${{ env.STAGING }}
-          cp -r commands/*.toml ${{ env.STAGING }}/commands
+          cp commands/*.toml ${{ env.STAGING }}/commands/
 
       - name: Build binary
         run: |
