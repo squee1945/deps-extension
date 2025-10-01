@@ -45,12 +45,13 @@ jobs:
         run: |
           mkdir -p ${{ env.STAGING }}
           cp gemini-extension.json ${{ env.STAGING }}
+          cp GEMINI.md ${{ env.STAGING }}
           cp -r commands ${{ env.STAGING }}
 
       - name: Build binary ${{ matrix.os }}
         run: |
           cd mcp
-          go build -o ../${{ env.STAGING }}/${{ env. MCP_BINARY_NAME }}
+          go build -o ../${{ env.STAGING }}/${{ env.MCP_BINARY_NAME }}
 
       - name: Create release archive ${{ env.RELEASE_ARCHIVE }}
         run: |

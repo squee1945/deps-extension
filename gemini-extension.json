@@ -2,7 +2,7 @@
   "name": "deps-extension",
   "version": "1.0.0",
   "mcpServers": {
-    "my-server": {
+    "deps_mcp": {
       "command": "depsmcp"
     }
   },

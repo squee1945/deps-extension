@@ -1,13 +1,17 @@
-description = "Lists the dependents of the current package."
+description = "Lists the dependents of the package."
 
 prompt = """
-Use the list_dependents MCP tool to find the dependents of the current package.
+Use the `list_dependents` MCP tool (on the deps_mcp MCP server)
+to find the dependents of the package.
 
-The current package can be determined by examining the code or looking at the
+The user may pass the name of the package as an argument to this command.
+
+If the user does not specify the name of the package as an argument,
+the current package can be determined by examining the code or looking at the
 output from `git remote -v` (typically the package is indicated by the
 `origin` entry).
 
-If list_dependents returns a not found error, try to find an alternate package
+If `list_dependents` returns a not found error, try to find an alternate package
 names, for example, for Go, the package name can be found in the `go.mod` file.
 
 If all attempts fail, ask the user for the name of their package.
