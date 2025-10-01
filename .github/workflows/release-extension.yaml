@@ -43,9 +43,9 @@ jobs:
 
       - name: Create release folder
         run: |
-          mkdir -p ${{ env.STAGING }}/commands
+          mkdir -p ${{ env.STAGING }}
           cp gemini-extension.json ${{ env.STAGING }}
-          cp commands/*.toml ${{ env.STAGING }}/commands/
+          cp -r commands ${{ env.STAGING }}
 
       - name: Build binary ${{ matrix.os }}
         run: |
