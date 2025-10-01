@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "mcpServers": {
     "deps_mcp": {
-      "command": "depsmcp"
+      "command": "${extensionPath}${/}depsmcp"
     }
   },
   "contextFileName": "GEMINI.md"
