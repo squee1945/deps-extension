@@ -17,12 +17,15 @@ jobs:
         os:
           - linux
           - darwin
+        arch:
+          - x64
+          - arm64
 
     env:
       GOOS: ${{ matrix.os }}
-      GOARCH: arm64
-      STAGING: staging-${{ matrix.os }}-arm64
-      RELEASE_ARCHIVE: ${{ matrix.os }}.arm64.deps-extension.zip
+      GOARCH: ${{ matrix.arch }}
+      STAGING: staging-${{ matrix.os }}-${{ matrix.arch }}
+      RELEASE_ARCHIVE: ${{ matrix.os }}.${{ matrix.arch }}.deps-extension.zip
       MCP_BINARY_NAME: depsmcp
 
 
