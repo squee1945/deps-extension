@@ -12,11 +12,17 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        os:
+          - linux
+          - darwin
+
     env:
-        GOOS: darwin
+        GOOS: ${{ matrix.os }}
         GOARCH: arm64
-        STAGING: staging-darwin-arm64
-        RELEASE_ARCHIVE: darwin.arm64.deps-extension.zip
+        STAGING: staging-${{ matrix.os }}-arm64
+        RELEASE_ARCHIVE: ${{ matrix.os }}.arm64.deps-extension.zip
         MCP_BINARY_NAME: depsmcp
 
 
@@ -51,17 +57,17 @@ jobs:
           cp gemini-extension.json ${{ env.STAGING }}
           cp commands/*.toml ${{ env.STAGING }}/commands/
 
-      - name: Build binary
+      - name: Build binary ${{ matrix.os }}
         run: |
           cd mcp
           go build -o ../${{ env.STAGING }}/${{ env. MCP_BINARY_NAME }}
 
-      - name: Create release archive
+      - name: Create release archive ${{ env.RELEASE_ARCHIVE }}
         run: |
           mkdir -p release
           zip release/${{ env.RELEASE_ARCHIVE }} ${{ env.STAGING }}/*
 
-      - name: Create release
+      - name: Upload release archive ${{ env.RELEASE_ARCHIVE }}
         uses: softprops/action-gh-release@v2
         with:
           files: |
