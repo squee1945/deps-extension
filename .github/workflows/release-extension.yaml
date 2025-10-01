@@ -29,7 +29,7 @@ jobs:
       GOOS: ${{ matrix.os }}
       GOARCH: ${{ matrix.arch }}
       STAGING: staging-${{ matrix.os }}-${{ matrix.arch }}
-      RELEASE_ARCHIVE: ${{ matrix.os }}.${{ matrix.arch }}.deps-extension.zip
+      RELEASE_ARCHIVE: ${{ matrix.os }}.${{ matrix.arch }}.deps-extension.tar.gz
       MCP_BINARY_NAME: depsmcp
 
     steps:
@@ -55,7 +55,7 @@ jobs:
       - name: Create release archive ${{ env.RELEASE_ARCHIVE }}
         run: |
           mkdir -p release
-          zip release/${{ env.RELEASE_ARCHIVE }} ${{ env.STAGING }}/*
+          tar -czvf release/${{ env.RELEASE_ARCHIVE }} ${{ env.STAGING }}
 
       - name: Upload release archive ${{ env.RELEASE_ARCHIVE }}
         uses: actions/upload-artifact@v4
