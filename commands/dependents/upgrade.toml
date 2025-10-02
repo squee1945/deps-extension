@@ -1,0 +1,83 @@
+description = "Produces a pull request to upgrade the dependent package to the new version of this package."
+
+prompt = """
+# Goal
+Upgrade <dependent> repository's dependency on <package>, where <depedent> must be specified by the user.
+
+Use the local directory to determine the <package> in question. Use `git remote -v` or language-specific
+approaches (e.g., inspect go.mod for a Go package). If you cannot determine the <package>, ask
+the user.
+
+A new version of this <package> has been released. Use `get_latest_release` to find the
+latest version.
+
+# Steps
+
+To perform this upgrade:
+
+[ ] Find the latest <version> of the <package> using the `get_latest_release` tool.
+
+[ ] Check the source for <dependent> using the `search_code` and `get_file_contents` tools.
+    If <dependent> is already using the latest <version> of <package>, then just say that,
+    and your work is done.
+
+[ ] Make a fork of the repository for the <dependent>, called <fork>. The <fork> must be under
+    the same repository owner as the <package>. For example, if the <dependent> is `github.com/foo/bar`
+    and the <package> is `github.com/xxx/yyy`, then the <fork> should be `github.com/xxx/bar`.
+    If needed the <fork> name can be randomized `github.com/xxx/bar-[random]`.
+
+[ ] Wait until the <fork> is ready. You can check on the status of the
+    <fork> using the WebFetch tool to see if it is ready.
+
+[ ] Create a <temp> directory and git clone the <fork> into it. Update the
+    <package> dependency to the desired <version> using language-specific
+    tools. For example, for Go, `go get <package>@<version>`. Make sure the
+    changes build and tests pass, changing code and tests as required to get a
+    successful build and passing tests.
+
+[ ] Commit and push the changes back to the <fork> repository.
+
+[ ] Create a draft pull request on the <fork> back to the <dependent> repository.
+    The title of the pull request should be "Upgrade <dependency> to <version>".
+
+[ ] Inspect any commit status changes on the pull request to ensure that all
+    workflows succeed. If any workflows fail, pull the workflow run logs and
+    adjust code or tests in <temp> accordingly, pushing a new commit to the
+    pull request. Repeat this until the commit statuses are all passing.
+
+[ ] When the commit statuses are all passing, update the draft pull request description
+    to include the following information (to the best of your ability):
+     - The <dependency> that was updated, including the old version and the new <version>.
+     - A link to the details of the new <version> release.
+     - What code or test patterns were updated to make the upgrade possible.
+     - A list of workflows that were successfully executed to prove the pull request
+       works.
+    Also, clear the draft flag of the pull request while updating it.
+
+[ ] To cleanup, delete the <temp> directory.
+
+As you complete the above steps, mark them as complete and output the entire set of
+steps again so it's easier to keep track of where you are in the process.
+
+# Available tools
+
+To achieve this work, the github MCP server is installed with a set of tools,
+including the following:
+  - Get the latest release of <package>: `get_latest_release`
+  - Create a fork of <dependent>: `fork_repository`
+  - Create a pull request: `create_pull_request`
+  - Get the details of a pull request: `get_pull_request`
+  - Get the status of pull request checks: `get_pull_request_status`
+  - Search for files: `search_code`
+  - Read specific file contents: `get_file_contents`
+  - List the workflows: `list_workflows`
+  - Run specific workflows: `run_workflow`
+  - Get the details of a workflow run: `get_workflow_run`
+  - Get the logs of a workflow run: `get_workflow_run_logs`
+  - Update the pull request description: `update_pull_request`
+  - Remove the draft flag from the pull request: `update_pull_request`
+
+Be thorough in your checks on the pull request patch you are sending
+to the maintainer. Your job is to make it as easy as possible for the
+maintainer to review your changes and accept your pull request.
+"""

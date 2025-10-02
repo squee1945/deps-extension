@@ -1,10 +1,15 @@
 {
   "name": "deps-extension",
   "version": "1.0.0",
+  "contextFileName": "GEMINI.md",
   "mcpServers": {
-    "deps_mcp": {
-      "command": "${extensionPath}${/}depsmcp"
+    "github": {
+      "description": "Tools to interact with GitHub repositories.",
+      "httpUrl": "https://api.githubcopilot.com/mcp/",
+      "timeout": 180000,
+      "headers": {
+        "Authorization": "Bearer github_pat_11AAIX..."
+      }
     }
-  },
-  "contextFileName": "GEMINI.md"
+  }
 }

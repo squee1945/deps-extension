@@ -10,5 +10,6 @@ necessary for the upgrade.
 
 These changes are always buildable and tested to ensure that the pull request
 is of high quality before removing the draft flag and sending to the
-dependent's maintainer for review.
-
+dependent's maintainer for review. The goal is to make it very easy for
+the maintainer to evaluate the quality of the pull request and increase
+the likelihood of acceptance.
